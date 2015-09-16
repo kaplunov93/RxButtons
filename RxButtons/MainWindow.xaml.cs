@@ -41,7 +41,7 @@ namespace RxButtons
             var click2 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button2.Click += h, h => button2.Click -= h).SkipUntil(click3).TakeUntil(click1);
             var click4 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button4.Click += h, h => button4.Click -= h).SkipUntil(click3).TakeUntil(click1);
             var clicks = click1.Merge(click2).Merge(click3).Merge(click4);
-            var res = from c in clicks  select c.Sender.ToString();
+            var res = from c in clicks select c.Sender.ToString();
             res.Subscribe(h => textBox.Text += h + "\n", () => textBox.Text += "Complited\n");
         }
 
@@ -65,7 +65,7 @@ namespace RxButtons
                      .SkipWhile(i => i.EventArgs.Source.ToString() != button3.ToString())
                      .TakeWhile(i => i.EventArgs.Source.ToString() != button1.ToString())
                         select cl.EventArgs.Source.ToString();
-            click.Subscribe(h => textBox.Text += h + "\n", () => textBox.Text += button1.ToString() + "\nComplited");
+            click.Subscribe(h => textBox.Text += h + "\n", () => textBox.Text += button1.ToString() + "\nComplited\n");
         }
     }
 }
