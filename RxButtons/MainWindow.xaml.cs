@@ -36,10 +36,14 @@ namespace RxButtons
         public void SecondVariant()
         {
 
-            var click3 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button3.Click += h, h => button3.Click -= h).Take(1);
-            var click1 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button1.Click += h, h => button1.Click -= h).SkipUntil(click3).Take(1);
-            var click2 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button2.Click += h, h => button2.Click -= h).SkipUntil(click3).TakeUntil(click1);
-            var click4 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(h => button4.Click += h, h => button4.Click -= h).SkipUntil(click3).TakeUntil(click1);
+            var click3 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => button3.Click += h, h => button3.Click -= h).Take(1);
+            var click1 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => button1.Click += h, h => button1.Click -= h).SkipUntil(click3).Take(1);
+            var click2 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => button2.Click += h, h => button2.Click -= h).SkipUntil(click3).TakeUntil(click1);
+            var click4 = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => button4.Click += h, h => button4.Click -= h).SkipUntil(click3).TakeUntil(click1);
             var clicks = click1.Merge(click2).Merge(click3).Merge(click4);
             var res = from c in clicks select c.Sender.ToString();
             res.Subscribe(h => textBox.Text += h + "\n", () => textBox.Text += "Complited\n");
